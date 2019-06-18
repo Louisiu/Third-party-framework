@@ -7,6 +7,12 @@
 //
 
 /*
+ 
+ 
+ 
+ */
+
+/*
  urlStr = @"http://api.douban.com/v2/movie/top250";
  
      NSDictionary *dic = @{@"start":@(1),

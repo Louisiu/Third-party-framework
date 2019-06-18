@@ -662,10 +662,10 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
     
     self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration delegate:self delegateQueue:self.operationQueue];
 
-    //默认为json解析
+    //默认为json解析(各种响应转码)
     self.responseSerializer = [AFJSONResponseSerializer serializer];
 
-    //设置默认证书 无条件信任证书https认证
+    //设置默认证书 无条件信任证书https认证(设置默认安全策略)
     self.securityPolicy = [AFSecurityPolicy defaultPolicy];
 
 #if !TARGET_OS_WATCH
@@ -673,10 +673,12 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
     self.reachabilityManager = [AFNetworkReachabilityManager sharedManager];
 #endif
 
-    //delegate= value taskid = key
+    // 设置存储NSURL task与AFURLSessionManagerTaskDelegate的词典（重点，在AFNet中，每一个task都会被匹配一个AFURLSessionManagerTaskDelegate 来做task的delegate事件处理）
+    // delegate= value taskid = key
     self.mutableTaskDelegatesKeyedByTaskIdentifier = [[NSMutableDictionary alloc] init];
 
-    //使用NSLock确保线程安全
+    // 设置AFURLSessionManagerTaskDelegate 词典的锁，确保词典在多线程访问时的线程安全
+    // 使用NSLock确保线程安全
     self.lock = [[NSLock alloc] init];
     self.lock.name = AFURLSessionManagerLockName;
 
