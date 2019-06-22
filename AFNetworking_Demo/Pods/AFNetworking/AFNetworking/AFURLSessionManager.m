@@ -642,22 +642,28 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
         return nil;
     }
 
-    //设置默认的configuration,配置我们的session
+    // 设置默认的configuration,配置我们的session
     if (!configuration) {
         configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     }
 
-    //持有configuration
+    // 持有configuration
     self.sessionConfiguration = configuration;
 
-    //设置为delegate的操作队列并发的线程数量1，也就是串行队列
+    // 设置为delegate的操作队列并发的线程数量1，也就是串行队列
     self.operationQueue = [[NSOperationQueue alloc] init];
+    // 并发数设置为 1，是为了线程安全
     self.operationQueue.maxConcurrentOperationCount = 1;
 
     /*
      －如果完成后需要做复杂(耗时)的处理，可以选择异步队列
      －如果完成后直接更新UI，可以选择主队列
      [NSOperationQueue mainQueue]
+     */
+    
+    /*
+    queue
+    An operation queue for scheduling the delegate calls and completion handlers. The queue should be a serial queue, in order to ensure the correct ordering of callbacks. If nil, the session creates a serial operation queue for performing all delegate method calls and completion handler calls.
      */
     
     self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration delegate:self delegateQueue:self.operationQueue];

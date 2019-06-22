@@ -81,9 +81,10 @@
     /*
      为了确保NSURL +URLWithString:relativeToURL: works可以正确执行，在baseurlpath的最后添加‘/’
      */
-    //url有值且没有‘/’,那么在url的末尾添加‘/’
-    //重定向 -- www.baidu.com 2次 浪费带宽
-    //表示目录 信息的拼接
+    // url有值且没有‘/’,那么在url的末尾添加‘/’
+    // 重定向 -- www.baidu.com 会请求2次 浪费带宽
+    // 表示目录 信息的拼接 路由
+    // SEO
     if ([[url path] length] > 0 && ![[url absoluteString] hasSuffix:@"/"]) {
         url = [url URLByAppendingPathComponent:@""];
     }

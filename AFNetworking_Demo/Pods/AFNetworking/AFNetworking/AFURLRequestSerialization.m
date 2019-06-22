@@ -430,22 +430,23 @@ forHTTPHeaderField:(NSString *)field
                                 parameters:(id)parameters
                                      error:(NSError *__autoreleasing *)error
 {
-    //断言如果nil，直接打印出来
+    // 断言如果nil，直接打印出来
     NSParameterAssert(method);
     NSParameterAssert(URLString);
 
-    //我们传进来的是一个字符串，在这里它帮你转成url
+    // 我们传进来的是一个字符串，在这里它帮你转成url
     NSURL *url = [NSURL URLWithString:URLString];
 
     NSParameterAssert(url);
 
     NSMutableURLRequest *mutableRequest = [[NSMutableURLRequest alloc] initWithURL:url];
-    //设置请求方式（get、post、put。。。）
+    // 设置请求方式（get、post、put。。。）
+    // 请求行
     mutableRequest.HTTPMethod = method;
 
-    //将request的各种属性遍历,给NSMutableURLRequest自带的属性赋值
+    // 将request的各种属性遍历,给NSMutableURLRequest自带的属性赋值
     for (NSString *keyPath in AFHTTPRequestSerializerObservedKeyPaths()) {
-        //给设置过得的属性，添加到request（如：timeout）
+        //给设置过得的属性，添加到request（如：timeout、cache、 policy request）
         if ([self.mutableObservedChangedKeyPaths containsObject:keyPath]) {
             //通过kvc动态的给mutableRequest添加value
             [mutableRequest setValue:[self valueForKeyPath:keyPath] forKey:keyPath];

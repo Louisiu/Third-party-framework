@@ -58,9 +58,12 @@
                           @"count":@(5)
                           };
     // manager : 什么设计模式？
-    // 线程 -- 2.0 常驻线程  -- 3.0 
+    // 线程 -- 2.0 常驻线程  -- 3.0 NSOperationQueue
+    // request : 请求行 + 请求头 + 请求体
+    // url -> request AF
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    manager.requestSerializer.timeoutInterval = 5;
+    manager.requestSerializer.timeoutInterval = 5;//不设置当前的延时时间，默认是 60秒
+    
     [manager GET:urlStr parameters:dic progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
